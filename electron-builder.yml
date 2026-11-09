@@ -1,5 +1,9 @@
 appId: com.las.session-manager
 productName: Session Manager
+publish:
+  provider: github
+  owner: zhangkaixuan01
+  repo: session-manager
 directories:
   buildResources: build
   output: dist
@@ -27,6 +31,7 @@ portable:
   artifactName: ${name}-portable-${version}.${ext}
 mac:
   icon: build/icon@512.png
+  artifactName: ${name}-${version}-${arch}.${ext}
   category: public.app-category.developer-tools
   target:
     - target: dmg

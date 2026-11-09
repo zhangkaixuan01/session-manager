@@ -11,6 +11,9 @@
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Electron](https://img.shields.io/badge/Electron-45-9feaf9?logo=electron&logoColor=white)
+[![Release](https://img.shields.io/github/v/release/zhangkaixuan01/session-manager)](https://github.com/zhangkaixuan01/session-manager/releases/latest)
+
+[下载最新版](https://github.com/zhangkaixuan01/session-manager/releases/latest) · [更新记录](CHANGELOG.md) · [反馈问题](https://github.com/zhangkaixuan01/session-manager/issues)
 
 </div>
 
@@ -49,13 +52,14 @@ Session Manager 直接读取 CLI 在本地的会话存档，让你：
 
 ## 下载安装
 
-安装包发布后，可前往 [Releases](https://github.com/zhangkaixuan01/session-manager/releases) 页面下载：
+当前版本 **v0.1.1**。前往 [最新 Release](https://github.com/zhangkaixuan01/session-manager/releases/latest) 下载 Windows x64 版本：
 
 | 平台 | 文件 | 说明 |
 |---|---|---|
-| Windows | `session-manager-portable-x.y.z.exe` | 单文件便携版，双击即用 |
-| Windows | `session-manager-x.y.z-x64.exe` | NSIS 安装包（简体中文向导） |
-| macOS | `session-manager-x.y.z-arm64.dmg` / `-x64.dmg` | Apple Silicon / Intel |
+| Windows x64 | [便携版](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-portable-0.1.1.exe) | 单文件，双击即用 |
+| Windows x64 | [安装版](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-0.1.1-x64.exe) | 简体中文安装向导 |
+
+macOS 暂未提供预编译安装包，可在 Mac 上运行 `pnpm dist:mac` 构建 Apple Silicon / Intel 版本。
 
 系统要求：Windows 10+ 或 macOS 12+。无需安装任何依赖，CLI（Claude Code / Codex）本身也不必在运行。
 
@@ -117,6 +121,8 @@ Claude 的 `thinking`、Codex 的 `reasoning`/加密内容不能跨 CLI 搬运�
 技术栈：Electron 45 + electron-vite 6 + React 19 + Tailwind 4 + TypeScript。SQLite 用 Node 内置 `node:sqlite`，zstd 用纯 JS 的 `fzstd`——**零原生模块**，clone 即用。
 
 ```bash
+git clone https://github.com/zhangkaixuan01/session-manager.git
+cd session-manager
 pnpm install          # .npmrc 已配置 electron 国内镜像
 pnpm dev              # 启动开发窗口
 pnpm typecheck        # 类型检查
@@ -133,9 +139,10 @@ pnpm dist:mac         # macOS：arm64 + x64 双架构 dmg（需在 mac 机器上
 
 ### 发布新版本
 
-1. 修改 `package.json` 的 `version`，执行 `pnpm dist:win`
-2. 在 GitHub 创建 Release（标签 `vX.Y.Z`），把 `dist/` 产物作为附件上传——Release 说明会直接展示在老用户的更新弹窗里
-3. 应用已通过 `src/shared/config.ts` 指向本仓库的 Releases；Fork 后发布时需改为自己的仓库地址
+1. 更新 `package.json` 的 `version`、本页版本与下载链接，以及 `CHANGELOG.md`
+2. 执行 `pnpm typecheck` 和 `pnpm dist:win --publish never`，核对 `dist/` 中同版本的便携版与安装版
+3. 提交并推送代码，在对应提交上创建 `vX.Y.Z` 标签与 GitHub Release，上传两个 `.exe` 及校验和文件
+4. 应用显示版本由 `package.json` 提供；更新检查使用 `src/shared/config.ts`，发布目标使用 `electron-builder.yml`。Fork 后需同步更新这两处及 `package.json`、README 中的仓库地址
 
 > 检查更新只放行 `github.com` 域名链接；未配置仓库或网络不通时给出提示，不影响其他功能。
 
