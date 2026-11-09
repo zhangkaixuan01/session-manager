@@ -1,0 +1,35 @@
+appId: com.las.session-manager
+productName: Session Manager
+directories:
+  buildResources: build
+  output: dist
+files:
+  - out/**
+asar: true
+extraResources:
+  - from: build/icon.png
+    to: icon.png
+win:
+  icon: build/icon.ico
+  target:
+    - target: portable
+      arch: [x64]
+    - target: nsis
+      arch: [x64]
+  artifactName: ${name}-${version}-${arch}.${ext}
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+  language: '2052'
+  shortcutName: Session Manager
+portable:
+  artifactName: ${name}-portable-${version}.${ext}
+mac:
+  icon: build/icon@512.png
+  category: public.app-category.developer-tools
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+electronDownload:
+  mirror: https://npmmirror.com/mirrors/electron/
