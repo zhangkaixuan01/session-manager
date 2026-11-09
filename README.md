@@ -8,144 +8,120 @@
 
 本地桌面工具 · 会话互转 · 搜索预览 · 重命名 · 安全清理
 
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Electron](https://img.shields.io/badge/Electron-45-9feaf9?logo=electron&logoColor=white)
 [![Release](https://img.shields.io/github/v/release/zhangkaixuan01/session-manager)](https://github.com/zhangkaixuan01/session-manager/releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+![Download](https://img.shields.io/badge/download-Windows_x64-blue)
 
 [下载最新版](https://github.com/zhangkaixuan01/session-manager/releases/latest) · [更新记录](CHANGELOG.md) · [反馈问题](https://github.com/zhangkaixuan01/session-manager/issues)
 
 </div>
 
----
+## 功能
 
-## 它解决什么问题
-
-用 Claude Code 或 Codex CLI 干活久了，历史会话会越攒越多——可官方 CLI 至今没有好用的会话管理：标题要么是截断的首句消息，要么是一串目录名，想找回上周那个「修复登录 bug」的会话只能靠肉眼翻。
-
-Session Manager 直接读取 CLI 在本地的会话存档，让你：
+直接读取本机 Claude Code 与 Codex 的会话存档，在一个窗口里整理历史对话。
 
 - ✏️ 重命名会话
 - 🔍 按标题搜索，按项目分组
-- 👁 在线预览会话内容
+- 👁 本地预览会话内容
 - 📋 一键复制恢复命令
 - 🔁 Claude Code 与 Codex 会话互转
+- 📌 正在运行的 Claude 会话置顶
 - 🗑 删除会话并移入回收站
 
-所有操作只碰你自己电脑上的文件，**不上传任何数据**。
-
-支持亮色 / 暗色模式（顶栏日/月按钮切换，选择自动记住，窗口边框同步跟随）。
-
-## 功能特性
-
-| 特性 | 说明 |
-|---|---|
-| 双 CLI 支持 | Claude Code（`~/.claude/projects`）与 Codex（`~/.codex/sessions`，含 `.jsonl.zst` 压缩档与归档目录） |
-| 重命名标题 | Claude：向会话 JSONL 追加 `custom-title` 行，与官方 `/rename` 完全同一机制；Codex：`session_index.jsonl` 与 `state_5.sqlite` 双写，`codex resume` 立即生效 |
-| 标题徽标 | 「已命名」「AI」「首条消息」「目录名」区分标题来源，一眼看出哪些改过名 |
-| 运行态检测 | Claude 正在运行的会话显示绿点并置顶，置顶区与其他会话分别按最近活跃时间倒序，每 10 秒刷新状态 |
-| 搜索与分组 | 标题即时搜索；左侧按项目目录分组统计 |
-| 内容预览 | 只读消息气泡视图（最近 500 条 / 1MB），自动剥离 system-reminder、环境注入等噪音 |
-| 跨 CLI 转换 | 悬停会话点击双向箭头，生成带 `⟲自Claude` / `⟲自Codex` 标记的新副本，并复制 `resume` 命令；原会话保持不变 |
-| 安全删除 | 移入系统回收站可恢复；自动连带 sidecar 目录与 `.zst`/`.jsonl` 兄弟文件 |
-| 检查更新 | 走 GitHub Releases，弹窗展示更新说明，一键跳转下载 |
+支持亮色与暗色主题。置顶区和其他会话分别按最近活跃时间倒序，Claude 列表每 10 秒刷新运行状态。
 
 ## 下载安装
 
-当前版本 **v0.1.1**。前往 [最新 Release](https://github.com/zhangkaixuan01/session-manager/releases/latest) 下载 Windows x64 版本：
+当前版本 **v0.1.1**，提供 Windows x64 安装包，无需另装 Node.js 或 pnpm。
 
-| 平台 | 文件 | 说明 |
+| 版本 | 下载 | 使用方式 |
 |---|---|---|
-| Windows x64 | [便携版](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-portable-0.1.1.exe) | 单文件，双击即用 |
-| Windows x64 | [安装版](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-0.1.1-x64.exe) | 简体中文安装向导 |
+| Windows 便携版 | [session-manager-portable-0.1.1.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-portable-0.1.1.exe) | 双击运行 |
+| Windows 安装版 | [session-manager-0.1.1-x64.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-0.1.1-x64.exe) | 按向导安装，可选择目录 |
 
-macOS 暂未提供预编译安装包，可在 Mac 上运行 `pnpm dist:mac` 构建 Apple Silicon / Intel 版本。
+[SHA-256 校验文件](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/SHA256SUMS.txt) · [全部版本](https://github.com/zhangkaixuan01/session-manager/releases)
 
-系统要求：Windows 10+ 或 macOS 12+。无需安装任何依赖，CLI（Claude Code / Codex）本身也不必在运行。
+macOS 暂无预编译安装包，可在 Mac 上从源码构建。
 
-## 快速上手
+## 使用
 
-1. 启动后选择 **Claude Code** 或 **Codex** 标签，会话列表自动加载
-2. 鼠标悬停任意会话 → 点击 ✏️ 重命名（🟢 绿点表示该会话正在运行，建议先退出再改名）
-3. 需要继续对话时点 📋 复制 resume 命令，粘贴到终端即可恢复；点击 ↔️ 可生成另一 CLI 的会话副本
-4. 顶栏 ☀/🌙 切换亮暗模式，偏好会被记住
+1. 启动后切换 **Claude Code** 或 **Codex** 标签，查看本机会话。
+2. 用搜索框筛选标题，或在左侧选择项目；点击会话预览内容。
+3. 鼠标悬停会话，使用重命名、转换、复制命令、打开文件位置或删除按钮。
+4. 继续对话时，在对应项目目录的终端中执行复制的恢复命令。
 
-## 工作原理
+浏览已有存档不要求 CLI 正在运行；恢复对话需要安装并配置对应 CLI。
 
-Session Manager 是**只读优先**的工具：浏览、搜索、预览不写任何文件；只有你明确操作时才增量写入：
+### 会话互转
 
-| 操作 | 实际行为 |
-|---|---|
-| 浏览 / 搜索 / 预览 | 纯读取（列表只读文件头尾窗口，大会话也不卡） |
-| 重命名 Claude 会话 | 向该会话 JSONL **追加一行** `custom-title`（与官方 `/rename` 同机制，不改任何消息） |
-| 重命名 Codex 会话 | 向 `session_index.jsonl` 追加一行 + `UPDATE state_5.sqlite threads.title`（CLI 正在运行锁库时只写索引，稍后自动补写数据库） |
-| 删除 | `shell.trashItem` 移入回收站，**永不直接删除** |
+点击 ↔ 按钮并确认后，应用生成另一 CLI 格式的新会话，复制恢复命令。原会话保持不变，新标题带 `⟲自Claude` 或 `⟲自Codex` 标记；应用不会自动启动终端。
 
-重命名写入的是各家 CLI 的官方存储格式，没有私有数据——本工具改名后，CLI 自带的会话列表、`--resume` / `resume` 同样显示新标题；反之亦然。
+转换用于延续文本对话和工具历史，存在以下限制：
 
-## 隐私与数据安全
+- `thinking` / `reasoning` 不迁移，图片和其他非文本内容可能无法保留。
+- 工具调用作为历史记录保留，不会重新执行；缺失或无法匹配的结果会提示处理情况。
+- 系统提示和环境上下文由目标 CLI 重建；压缩存档超过解压上限时会提示历史可能不完整。
+- 两个 CLI 的内部会话格式可能变化，不保证兼容所有版本。恢复后应检查历史内容是否符合预期。
 
-- **本地优先**：所有会话数据留在你的磁盘上，工具不内置任何统计或遥测
-- **唯一的网络请求**是「检查更新」按钮主动触发的 GitHub API 查询（`releases/latest`，只传仓库名），不点不联网
-- 渲染进程运行在 sandbox + contextIsolation 下；所有文件操作经过主进程白名单校验（路径必须在 `~/.claude` / `~/.codex` 会话根内，且与 sessionId 核对）
-- 不会读取或触碰 `~/.codex/config.toml` 等配置文件中的凭据
+### 检查更新
+
+顶栏显示当前应用版本。点击 **检查更新** 会查询本仓库的最新正式 Release；发现新版本时展示更新说明，点击 **前往下载** 打开发布页面。下载后手动安装或替换便携版，不会在后台自动安装。
+
+## 数据与隐私
+
+会话管理在本地完成，不上传会话内容，不内置统计或遥测。检查更新时会请求 GitHub API，下载按钮会在浏览器中打开 GitHub 页面。
+
+默认读取位置如下，`~` 表示当前用户目录：
+
+| CLI | 会话目录 | 自定义根目录 |
+|---|---|---|
+| Claude Code | `~/.claude/projects` | `CLAUDE_CONFIG_DIR` 环境变量 |
+| Codex | `~/.codex/sessions`、`~/.codex/archived_sessions` | `CODEX_HOME` 环境变量 |
+
+自定义环境变量需在启动应用前设置，并由应用进程继承。支持读取 Codex 的 `.jsonl.zst` 压缩存档。
+
+重命名会更新本地标题记录；转换会新建会话并写入目标 CLI 的索引或数据库。Codex 数据库位置支持默认目录、`CODEX_SQLITE_HOME` 和 `config.toml` 的 `sqlite_home`。删除通过系统回收站处理，也会移动对应的关联目录或同名压缩存档。
 
 ## 常见问题
 
-**重命名后 `claude --resume` 列表里没显示新名？**
-需要重新打开会话选择列表（CLI 有缓存）；`codex resume` 优先读 sqlite，本工具已双写，正常即时生效。
+**没有发现会话？** 先确认本机已有 CLI 会话存档；如使用自定义目录，检查应用是否继承了对应环境变量，再刷新列表。
 
-**会话正在运行时能改名吗？**
-可以，但 CLI 退出时可能追加新内容；界面会提示，建议先退出该会话。
+**为什么只有 Claude 会话显示运行状态？** 当前仅实现 Claude Code 运行记录检测；Codex 暂不显示运行状态，也不自动置顶。
 
-**Codex 会话为什么没有绿点？**
-Codex CLI 的运行锁文件不含 PID 且存在过期残留，无法可靠判断运行态，暂不显示。
+**改名后 CLI 还显示旧标题？** 重新打开 CLI 的会话列表。若提示 Codex 数据库写入失败，可关闭占用程序后在本应用中刷新，待补写标题。
 
-**删除会误伤吗？**
-删除先进系统回收站（可随时还原），且会连带清理同一会话的压缩档/兄弟文件，防止残留复活。
+**转换后无法恢复？** 先查看转换提示，确认目标 CLI 已配置且数据库注册成功。若仍失败，请提交 CLI 版本、转换方向和报错信息到 [Issues](https://github.com/zhangkaixuan01/session-manager/issues)。
 
-**徽标「AI」和「已命名」什么区别？**
-「已命名」= 你手动命的名（custom-title）；「AI」= CLI 自动生成的标题；「首条消息」/「目录名」= 兜底显示。
+## 本地开发
 
-**跨 CLI 转换会保留什么？**
-用户消息、assistant 文本以及工具调用和结果会按目标 CLI 的原生格式重建；转换生成全新 sessionId，原文件不改。转换后需要在终端执行提示中的 `claude --resume <id>` 或 `codex resume <id>`。
-
-**跨 CLI 转换有哪些有损项？**
-Claude 的 `thinking`、Codex 的 `reasoning`/加密内容不能跨 CLI 搬运，会被丢弃；Codex 的明文 `compacted.replacement_history` 会保留。系统提示和环境注入由目标 CLI 重新生成，工具调用只作为历史上下文回放，不会再次执行。
-
-**转换失败或目标 CLI 找不到副本怎么办？**
-先确认目标 CLI 已退出并重试。Codex 需要同时把 rollout 注册到 `state_5.sqlite`；如果数据库被锁，界面会提示稍后重试。官方会话格式可能随 CLI 大版本变化，升级后应重新运行 `pnpm check:convert`。
-
-## 参与开发
-
-技术栈：Electron 45 + electron-vite 6 + React 19 + Tailwind 4 + TypeScript。SQLite 用 Node 内置 `node:sqlite`，zstd 用纯 JS 的 `fzstd`——**零原生模块**，clone 即用。
+技术栈：Electron、React、TypeScript、Tailwind CSS。建议使用 Node.js 24 和 pnpm 9 或更高版本。
 
 ```bash
 git clone https://github.com/zhangkaixuan01/session-manager.git
 cd session-manager
-pnpm install          # .npmrc 已配置 electron 国内镜像
-pnpm dev              # 启动开发窗口
-pnpm typecheck        # 类型检查
-pnpm check:scan       # 只读扫描本机会话，核对数量与标题（不改任何文件）
-pnpm check:rename     # 真机重命名验证：最旧会话改名 → 核对 → 改回
+pnpm install
+pnpm dev
 ```
 
-### 打包
+| 命令 | 用途 |
+|---|---|
+| `pnpm typecheck` | 检查主进程与界面类型 |
+| `pnpm build` | 构建应用代码 |
+| `pnpm dist:win --publish never` | 构建 Windows 便携版与安装版 |
+| `pnpm dist:mac --publish never` | 在 Mac 上构建 arm64 / x64 DMG |
+| `pnpm check:scan` | 只读扫描本机会话 |
+| `pnpm check:rename` | 对本机会话执行改名并改回 |
+| `pnpm check:convert` | 双向转换验证，在本机保留生成的会话副本 |
 
-```bash
-pnpm dist:win         # Windows：portable + NSIS 安装包（产物在 dist/）
-pnpm dist:mac         # macOS：arm64 + x64 双架构 dmg（需在 mac 机器上执行）
-```
+构建产物在 `dist/`。改名和转换验证会写入本地 CLI 数据，不是隔离测试。
 
-### 发布新版本
+## 发布维护
 
-1. 更新 `package.json` 的 `version`、本页版本与下载链接，以及 `CHANGELOG.md`
-2. 执行 `pnpm typecheck` 和 `pnpm dist:win --publish never`，核对 `dist/` 中同版本的便携版与安装版
-3. 提交并推送代码，在对应提交上创建 `vX.Y.Z` 标签与 GitHub Release，上传两个 `.exe` 及校验和文件
-4. 应用显示版本由 `package.json` 提供；更新检查使用 `src/shared/config.ts`，发布目标使用 `electron-builder.yml`。Fork 后需同步更新这两处及 `package.json`、README 中的仓库地址
+- **版本**：`package.json` 是应用版本来源；发布时同步更新 README 下载链接和 `CHANGELOG.md`。
+- **地址**：更新检查仓库在 `src/shared/config.ts`，打包发布目标在 `electron-builder.yml`，项目主页与反馈地址在 `package.json`。
+- **发布**：通过类型检查并打包后，将代码推送到 GitHub，在对应提交创建 `vX.Y.Z` Release，上传两个 Windows EXE 与 SHA-256 校验文件，并设为最新正式版本。
+- **Fork**：发布自己的版本前，同步修改以上仓库地址和 README 链接。
 
-> 检查更新只放行 `github.com` 域名链接；未配置仓库或网络不通时给出提示，不影响其他功能。
+## 许可证
 
-## License
-
-[MIT](LICENSE) 开源协议，可自由使用、修改与分发。
+[MIT](LICENSE)
