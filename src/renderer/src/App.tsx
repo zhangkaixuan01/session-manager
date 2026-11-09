@@ -54,6 +54,7 @@ export default function App() {
         sourcePath: args.session.sourcePath,
         newTitle: args.title
       }),
+    onError: (error) => push('error', String(error)),
     onSuccess: (result, { session, title }) => {
       if (result.ok) {
         push('success', `已重命名：${session.title ?? session.sessionId} → ${title}`)
@@ -69,6 +70,10 @@ export default function App() {
   const deleteMutation = useMutation({
     mutationFn: (args: { session: SessionMeta }) =>
       api.deleteSession({ providerId: args.session.providerId, sourcePath: args.session.sourcePath }),
+    onError: (error) => {
+      push('error', String(error))
+      void queryClient.invalidateQueries({ queryKey: ['sessions'] })
+    },
     onSuccess: (result, { session }) => {
       if (result.ok) {
         push('success', `已移入回收站：${session.title ?? session.sessionId}`)
@@ -88,10 +93,10 @@ export default function App() {
         sourcePath: args.session.sourcePath,
         title: args.session.title ?? undefined
       }),
+    onError: (error) => push('error', String(error)),
     onSuccess: (result) => {
       if (result.ok && result.resumeCommand) {
-        navigator.clipboard
-          .writeText(result.resumeCommand)
+        api.copyText(result.resumeCommand)
           .then(() => {
             push(
               'success',
@@ -141,13 +146,12 @@ export default function App() {
     onRename: (s) => setRenaming(s),
     onPreview: (s) => setPreviewing(s),
     onCopy: (s) => {
-      navigator.clipboard
-        .writeText(s.resumeCommand)
+      api.copyText(s.resumeCommand)
         .then(() => push('success', `已复制：${s.resumeCommand}`))
         .catch(() => push('error', '复制失败'))
     },
     onReveal: (s) => {
-      void api.revealPath(s.sourcePath)
+      void api.revealPath(s.sourcePath).catch((error) => push('error', String(error)))
     },
     onDelete: (s) => setDeleting(s),
     onConvert: (s) => setConverting(s)
@@ -258,7 +262,7 @@ export default function App() {
             {converting.providerId === 'claude' ? 'Codex' : 'Claude Code'} 原生会话副本，然后自动复制 resume 命令。
           </p>
           <p className="text-xs leading-relaxed text-zinc-500">
-            原会话不做任何修改；思考记录（thinking/reasoning）因跨 CLI 不可移植会丢弃，不影响对话内容；上下文过长时由目标
+            原会话不做任何修改；保留文字与工具历史，思考记录和不支持的内容块会略过并提示；上下文过长时由目标
             CLI 自动压缩。
           </p>
         </ConfirmDialog>
@@ -268,7 +272,7 @@ export default function App() {
           result={updateResult}
           onClose={() => setUpdateResult(null)}
           onDownload={(url) => {
-            void api.openExternal(url)
+            void api.openExternal(url).catch((error) => push('error', String(error)))
             setUpdateResult(null)
           }}
         />

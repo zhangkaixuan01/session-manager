@@ -1,0 +1,45 @@
+[package]
+name = "session-manager"
+version = "0.2.0-alpha.1"
+description = "Local-first Claude Code and Codex session manager"
+authors = ["LAS"]
+license = "MIT"
+repository = "https://github.com/zhangkaixuan01/session-manager"
+edition = "2021"
+default-run = "session-manager"
+
+[lib]
+name = "session_manager"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-single-instance = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-clipboard-manager = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4"] }
+dirs = "6"
+regex = "1"
+rusqlite = { version = "0.37", features = ["bundled"] }
+zstd = "0.13"
+trash = "5"
+sysinfo = "0.37"
+toml = "0.9"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+semver = "1"
+
+[dev-dependencies]
+tempfile = "3"
+sha2 = "0.10"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

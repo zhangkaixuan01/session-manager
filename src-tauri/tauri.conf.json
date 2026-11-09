@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Session Manager Preview",
+  "version": "../package.json",
+  "identifier": "com.las.session-manager.tauri",
+  "build": {
+    "beforeDevCommand": "pnpm dev:web",
+    "beforeBuildCommand": "pnpm build:web",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist/web"
+  },
+  "app": {
+    "windows": [{
+      "label": "main",
+      "title": "Session Manager — 会话管理（预览版）",
+      "width": 1200,
+      "height": 760,
+      "minWidth": 860,
+      "minHeight": 520,
+      "backgroundColor": "#18181b",
+      "theme": "Dark"
+    }],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src ipc: http://ipc.localhost; object-src 'none'; frame-src 'none'",
+      "devCsp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src ipc: http://ipc.localhost http://localhost:1420 ws://localhost:1420; object-src 'none'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": ["../build/icon.png", "../build/icon@512.png", "../build/icon.ico", "icons/icon.icns"],
+    "category": "DeveloperTool",
+    "shortDescription": "Claude Code 与 Codex 本地会话管理器",
+    "homepage": "https://github.com/zhangkaixuan01/session-manager",
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
+      "nsis": { "languages": ["SimpChinese", "English"], "displayLanguageSelector": false }
+    }
+  }
+}

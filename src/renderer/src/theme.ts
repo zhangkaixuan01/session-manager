@@ -14,7 +14,7 @@ export function applyTheme(t: Theme): void {
   document.documentElement.classList.toggle('dark', t === 'dark')
   document.documentElement.style.colorScheme = t
   // 同步主进程：标题栏/边框深浅（DWM）+ 原生窗口背景色
-  void api.setTheme(t)
+  void api.setTheme(t).catch(() => {})
 }
 
 export function saveTheme(t: Theme): void {

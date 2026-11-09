@@ -64,8 +64,7 @@ export interface ConvertResult {
 export interface AppInfo {
   /** 应用版本（package.json version） */
   version: string
-  electron: string
-  node: string
+  runtime: string
   sqliteAvailable: boolean
   platform: string
 }
