@@ -35,12 +35,6 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "@tailwindcss/oxide"
-    ]
-  },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",
     "@tauri-apps/cli": "^2.12.4",

@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+# pnpm 设置（pnpm 10.9+ 从此文件读取，取代 package.json 的 pnpm 字段）
+onlyBuiltDependencies:
+  - esbuild
+  - '@tailwindcss/oxide'

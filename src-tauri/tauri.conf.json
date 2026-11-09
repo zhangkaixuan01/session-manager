@@ -27,11 +27,14 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["nsis"],
+    "targets": ["nsis", "dmg", "app"],
     "icon": ["../build/icon.png", "../build/icon@512.png", "../build/icon.ico", "icons/icon.icns"],
     "category": "DeveloperTool",
     "shortDescription": "Claude Code 与 Codex 本地会话管理器",
     "homepage": "https://github.com/zhangkaixuan01/session-manager",
+    "macOS": {
+      "signingIdentity": "-"
+    },
     "windows": {
       "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
       "nsis": { "languages": ["SimpChinese", "English"], "displayLanguageSelector": false }

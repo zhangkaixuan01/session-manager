@@ -10,7 +10,7 @@
 
 [![Release](https://img.shields.io/github/v/release/zhangkaixuan01/session-manager)](https://github.com/zhangkaixuan01/session-manager/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-![Download](https://img.shields.io/badge/download-Windows_x64-blue)
+![Download](https://img.shields.io/badge/download-Windows_%26_macOS-blue)
 
 [下载最新版](https://github.com/zhangkaixuan01/session-manager/releases/latest) · [更新记录](CHANGELOG.md) · [反馈问题](https://github.com/zhangkaixuan01/session-manager/issues)
 
@@ -32,18 +32,19 @@
 
 ## 下载安装
 
-当前版本 **v0.2.0**，基于 Tauri 2 + Rust，Windows 安装包约 **4 MB**，无需另装 Node.js 或 Rust。
+当前版本 **v0.2.0**，基于 Tauri 2 + Rust，Windows 安装包约 **4 MB**，macOS DMG 约 **7 MB**，无需另装 Node.js 或 Rust。
 
 | 版本 | 下载 | 使用方式 |
 |---|---|---|
 | Windows 安装版 | [session-manager-0.2.0-x64.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.2.0/session-manager-0.2.0-x64.exe) | 按向导安装 |
 | Windows 便携版 | [session-manager-portable-0.2.0.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.2.0/session-manager-portable-0.2.0.exe) | 双击运行，需要系统已安装 WebView2 |
+| macOS (Apple Silicon) | [Session.Manager_0.2.0_aarch64.dmg](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.2.0/Session.Manager_0.2.0_aarch64.dmg) | 打开 DMG，将应用拖入「应用程序」 |
 
 [SHA-256 校验文件](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.2.0/SHA256SUMS.txt) · [全部版本](https://github.com/zhangkaixuan01/session-manager/releases)
 
 Windows 安装程序在缺少 WebView2 时会联网补装。旧版用户安装新版即可读取原有会话，确认正常后可卸载旧版应用。
 
-macOS 暂无预编译安装包，可在 Mac 上从源码构建。
+macOS DMG 仅包含 Apple Silicon（M 系列）架构，使用系统 WKWebView，无需额外运行时；Intel Mac 可从源码构建（见本地开发）。应用为 ad-hoc 签名、未经 Apple 公证，首次打开如被 Gatekeeper 拦截：在「应用程序」中右键点击应用选择「打开」，或在「系统设置 → 隐私与安全性」中点击「仍要打开」。
 
 ## 使用
 
@@ -96,7 +97,7 @@ macOS 暂无预编译安装包，可在 Mac 上从源码构建。
 
 ## 本地开发
 
-技术栈：Tauri 2、Rust、React、TypeScript、Tailwind CSS。需要 Node.js 24、pnpm 10 和 Rust stable。
+技术栈：Tauri 2、Rust、React、TypeScript、Tailwind CSS。需要 Node.js 24、pnpm 10+ 和 Rust stable。
 
 Windows 开发环境需要 Visual Studio C++ Build Tools（桌面 C++ 工作负载与 Windows SDK）和 WebView2；macOS 需要 Xcode Command Line Tools。参见 [Tauri 环境准备](https://v2.tauri.app/start/prerequisites/)。最终用户不需要安装 Rust 或 Node.js。Windows 安装程序在系统缺少 WebView2 时会联网安装运行时，因此精简安装包不包含离线 WebView2。
 

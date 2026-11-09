@@ -3,6 +3,7 @@
 ## v0.2.0
 
 - 桌面运行时改为 Tauri 2，复用 React 界面，使用系统 WebView；安装包不再携带 Chromium 和 Node.js。
+- 提供 macOS Apple Silicon DMG（约 7 MB），基于系统 WKWebView；应用为 ad-hoc 签名，首次打开需在系统设置中允许。
 - Rust 原生实现会话扫描、压缩存档读取、标题索引与 SQLite 更新、预览、互转及系统回收站操作。
 - 保留运行中 Claude 会话置顶、主题切换、剪贴板、定位文件、单实例和 GitHub 更新检查。
 - 改进互转：保留混合工具结果与用户文本，补齐工具配对，使用目标 Codex 模型配置；数据库注册失败时撤销未注册副本。
