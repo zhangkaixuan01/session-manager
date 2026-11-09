@@ -16,8 +16,6 @@
 
 </div>
 
-> 当前分支 `migration/tauri` 正在迁移至 **Tauri 2 + Rust**，版本为 `0.2.0-alpha.1`。下方正式下载仍为 Electron `v0.1.1`；迁移版从源码启动或从本分支的 Actions 构建产物获取，暂未替换正式 Release。
-
 ## 功能
 
 直接读取本机 Claude Code 与 Codex 的会话存档，在一个窗口里整理历史对话。
@@ -34,14 +32,16 @@
 
 ## 下载安装
 
-当前版本 **v0.1.1**，提供 Windows x64 安装包，无需另装 Node.js 或 pnpm。
+当前版本 **v0.2.0**，基于 Tauri 2 + Rust，Windows 安装包约 **4 MB**，无需另装 Node.js 或 Rust。
 
 | 版本 | 下载 | 使用方式 |
 |---|---|---|
-| Windows 便携版 | [session-manager-portable-0.1.1.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-portable-0.1.1.exe) | 双击运行 |
-| Windows 安装版 | [session-manager-0.1.1-x64.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/session-manager-0.1.1-x64.exe) | 按向导安装，可选择目录 |
+| Windows 安装版 | [session-manager-0.2.0-x64.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.2.0/session-manager-0.2.0-x64.exe) | 按向导安装 |
+| Windows 便携版 | [session-manager-portable-0.2.0.exe](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.2.0/session-manager-portable-0.2.0.exe) | 双击运行，需要系统已安装 WebView2 |
 
-[SHA-256 校验文件](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.1.1/SHA256SUMS.txt) · [全部版本](https://github.com/zhangkaixuan01/session-manager/releases)
+[SHA-256 校验文件](https://github.com/zhangkaixuan01/session-manager/releases/download/v0.2.0/SHA256SUMS.txt) · [全部版本](https://github.com/zhangkaixuan01/session-manager/releases)
+
+Windows 安装程序在缺少 WebView2 时会联网补装。旧版用户安装新版即可读取原有会话，确认正常后可卸载旧版应用。
 
 macOS 暂无预编译安装包，可在 Mac 上从源码构建。
 
@@ -101,7 +101,7 @@ macOS 暂无预编译安装包，可在 Mac 上从源码构建。
 Windows 开发环境需要 Visual Studio C++ Build Tools（桌面 C++ 工作负载与 Windows SDK）和 WebView2；macOS 需要 Xcode Command Line Tools。参见 [Tauri 环境准备](https://v2.tauri.app/start/prerequisites/)。最终用户不需要安装 Rust 或 Node.js。Windows 安装程序在系统缺少 WebView2 时会联网安装运行时，因此精简安装包不包含离线 WebView2。
 
 ```bash
-git clone --branch migration/tauri https://github.com/zhangkaixuan01/session-manager.git
+git clone https://github.com/zhangkaixuan01/session-manager.git
 cd session-manager
 pnpm install
 pnpm dev
@@ -118,13 +118,15 @@ pnpm dev
 | `pnpm check:rust` | Rust 静态检查 |
 | `pnpm dev:web` | 仅启动界面开发服务器，原生功能需 `pnpm dev` |
 
-前端产物在 `dist/web/`，原生程序在 `src-tauri/target/release/`，安装包在其 `bundle/` 目录。测试使用临时数据，不修改真实 CLI 会话。迁移版以 **Session Manager Preview** 安装，使用独立应用标识、默认安装目录及快捷方式，可与 Electron 版分别安装，但会读取同一套 CLI 存档。
+前端产物在 `dist/web/`，原生程序在 `src-tauri/target/release/`，安装包在其 `bundle/` 目录。测试使用临时数据，不修改真实 CLI 会话。首次安装 Rust 后请重新打开终端再启动开发环境。
+
+Windows 回收站恢复测试需要桌面环境，可单独运行 `cargo test --manifest-path src-tauri/Cargo.toml --test sessions recycle_bin_roundtrip -- --ignored`。
 
 ## 发布维护
 
 - **版本**：`package.json` 是桌面应用版本来源，`src-tauri/Cargo.toml` 保持相同版本；发布时更新 `CHANGELOG.md` 和 README 下载链接。
 - **地址**：更新检查与下载地址校验在 `src-tauri/src/lib.rs`，打包配置在 `src-tauri/tauri.conf.json`，项目元信息在 `package.json` 与 `src-tauri/Cargo.toml`。
-- **发布**：通过类型检查、Rust 测试和构建后，创建对应版本的 Release，上传安装包与 SHA-256 校验文件。迁移测试版使用预发布，不替换正式版；更新检查只提示比当前版本更高的正式 Release。
+- **发布**：通过类型检查、Rust 测试和构建后，创建对应版本的正式 Release，上传 Windows 安装包、便携 EXE 与 SHA-256 校验文件。更新检查只提示比当前版本更高的正式 Release。
 - **Fork**：发布自己的版本前，同步修改以上仓库地址和 README 链接。
 
 ## 许可证

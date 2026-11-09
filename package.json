@@ -1,6 +1,6 @@
 {
   "name": "session-manager",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0",
   "description": "本地优先的 Claude Code 与 Codex 桌面会话管理器，支持会话互转、搜索预览、重命名与安全清理。",
   "license": "MIT",
   "repository": {

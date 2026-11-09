@@ -16,4 +16,3 @@ export const api = {
   appInfo: () => invoke<AppInfo>('app_info'),
   copyText: writeText
 }
-export type { AppInfo, DeleteResult, PreviewResult, RenameResult, SessionMeta, ProviderId }

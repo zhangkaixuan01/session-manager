@@ -1,7 +1,7 @@
 name: Tauri checks and builds
 on:
   push:
-    branches: [migration/tauri]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 permissions:

@@ -191,7 +191,7 @@ fn open_external(app: tauri::AppHandle, url: String) -> Result<()> {
 }
 #[tauri::command]
 fn app_info(app: tauri::AppHandle) -> Value {
-    json!({"version":app.package_info().version.to_string(),"runtime":"Tauri 2","sqliteAvailable":true,"platform":std::env::consts::OS})
+    json!({"version":app.package_info().version.to_string()})
 }
 #[tauri::command]
 async fn check_updates(app: tauri::AppHandle) -> Result<Value> {
